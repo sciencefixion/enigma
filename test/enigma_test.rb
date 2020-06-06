@@ -11,6 +11,11 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Enigma, @enigma
   end
 
+  def test_it_has_a_character_set
+    expected = ("a".."z").to_a << " "
+    assert_equal expected, @enigma.character_set
+  end
+
   def test_random_five_digit_num
     assert_equal 5, @enigma.random_five_digit_num.length
   end
