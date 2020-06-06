@@ -32,9 +32,9 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_generate_offsets
-    skip
-    assert_instance_of Hash, @enigma.generate_offsets
 
+    assert_instance_of Hash, @enigma.generate_offsets
+    assert_equal 4, @enigma.generate_offsets.length
   end
 
 end
