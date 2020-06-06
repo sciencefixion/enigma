@@ -22,4 +22,14 @@ class Enigma
   def get_date
     Time.new.strftime("%d%m%y")
   end
+
+  def generate_offsets
+    squared_date = get_date.to_i ** 2
+    offsets = {
+      A: squared_date[-4],
+      B: squared_date[-3],
+      C: squared_date[-2],
+      D: squared_date[-1]
+    }
+  end
 end
