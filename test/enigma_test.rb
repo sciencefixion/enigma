@@ -16,13 +16,20 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_generate_keys
-    
     assert_instance_of Hash, @enigma.generate_keys
     assert_equal 4, @enigma.generate_keys.length
+    assert_equal 2, @enigma.generate_keys[:A].length
+  end
+
+  def test_get_date
+    assert_instance_of String, @enigma.get_date
+    assert_equal 6, @enigma.get_date.length
   end
 
   def test_generate_offsets
     skip
+    assert_instance_of Hash, @enigma.generate_offsets
+
   end
 
 end

@@ -17,4 +17,6 @@ class Enigma
     keys[:D] = num[3..4]
     keys
   end
+
+
 end
