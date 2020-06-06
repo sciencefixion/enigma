@@ -18,5 +18,7 @@ class Enigma
     keys
   end
 
-
+  def get_date
+    Time.new.strftime("%d%m%y")
+  end
 end
