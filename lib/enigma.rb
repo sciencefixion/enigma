@@ -11,12 +11,10 @@ class Enigma
 
   def generate_keys
     num = random_five_digit_num
-    keys = Hash.new
-    keys[:A] = num[0..1]
-    keys[:B] = num[1..2]
-    keys[:C] = num[2..3]
-    keys[:D] = num[3..4]
-    keys
+    { A: num[0..1],
+      B: num[1..2],
+      C: num[2..3],
+      D: num[3..4] }
   end
 
   def get_date
@@ -25,11 +23,9 @@ class Enigma
 
   def generate_offsets
     squared_date = get_date.to_i ** 2
-    offsets = {
-      A: squared_date[-4],
+    { A: squared_date[-4],
       B: squared_date[-3],
       C: squared_date[-2],
-      D: squared_date[-1]
-    }
+      D: squared_date[-1] }
   end
 end

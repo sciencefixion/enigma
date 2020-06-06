@@ -32,9 +32,14 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_generate_offsets
-
     assert_instance_of Hash, @enigma.generate_offsets
     assert_equal 4, @enigma.generate_offsets.length
+  end
+
+  def test_it_can_find_shifts
+
+    assert_instance_of Hash, @enigma.find_shifts
+    assert_equal 4, @enigma.find_shifts
   end
 
 end
