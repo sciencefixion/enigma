@@ -1,6 +1,7 @@
 class Enigma
 
   def initialize
+    @character_set = ("a".."z").to_a << " "
   end
 
   def random_five_digit_num
@@ -9,7 +10,6 @@ class Enigma
 
   def generate_keys
     num = random_five_digit_num
-
     keys = Hash.new
     keys[:A] = num[0..1]
     keys[:B] = num[1..2]
