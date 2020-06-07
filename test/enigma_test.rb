@@ -16,14 +16,7 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.character_set
   end
 
-  # def test_random_five_digit_num
-  #   assert_equal 5, @enigma.random_five_digit_num.length
-  # end
-
   def test_generate_keys
-    # # assert_instance_of Hash, @enigma.generate_keys
-    # assert_equal 4, @enigma.generate_keys.length
-    # assert_equal 2, @enigma.generate_keys[:A].length
     assert_instance_of String, @enigma.generate_keys
     assert_equal 5, @enigma.generate_keys.length
   end
@@ -35,15 +28,18 @@ class EnigmaTest < Minitest::Test
 
   def test_generate_offsets
     @enigma.stubs(:get_date).returns("040895")
+    date = @enigma.get_date
 
-    assert_instance_of String, @enigma.generate_offsets
-    assert_equal "1025", @enigma.generate_offsets
+    assert_instance_of String, @enigma.generate_offsets(date)
+    assert_equal "1025", @enigma.generate_offsets(date)
   end
 
   def test_it_can_find_shifts
     key = "02715"
     @enigma.stubs(:get_date).returns("040895")
     expected = {
+      :keys => "02715",
+      :date => "040895",
       :A => 3,
       :B => 27,
       :C => 73,
@@ -60,7 +56,7 @@ class EnigmaTest < Minitest::Test
     message = "hello world"
     @enigma.stubs(:get_date).returns("040895")
 
-    actual = @enigma.encrypt(message, key, date)
+    actual = @enigma.encrypt(message, key)
 
     assert_instance_of Hash, actual
     assert_equal "keder ohulw", actual[encryption]
