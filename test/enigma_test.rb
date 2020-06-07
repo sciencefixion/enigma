@@ -34,7 +34,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_generate_offsets
-
     @enigma.stubs(:get_date).returns("040895")
 
     assert_instance_of String, @enigma.generate_offsets
@@ -42,37 +41,26 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_find_shifts
-    skip
     key = "02715"
-    # date = "040895"
-    offsets = "1025"
+    @enigma.stubs(:get_date).returns("040895")
+    expected = {
+      :A => 3,
+      :B => 27,
+      :C => 73,
+      :D => 20
+    }
 
-    # enigma = mock('enigma')
-    # enigma.stubs(:generate_keys).returns(key)
-    # enigma.stubs(:get_date).returns(date)
-    # enigma.stubs(:generate_offsets).returns(offsets)
-
-    assert_instance_of String, @enigma.find_shifts(key, offsets)
-    assert_equal "03277320", @enigma.find_shifts(key, offsets)
+    assert_instance_of Hash, @enigma.find_shifts(key)
+    assert_equal expected, @enigma.find_shifts(key)
   end
 
   def test_encrypt
     skip
-    # key = "03277320"
-    # date = "040895"
-    # offsets = 1025
-    #
-    # enigma = mock('enigma')
-    # enigma.stubs(:generate_keys).returns(key)
-    # enigma.stubs(:get_date).returns(date)
-    # enigma.stubs(:generate_offsets).returns(offsets)
+    key = "02715"
+    message = "hello world"
+    @enigma.stubs(:get_date).returns("040895")
 
-    key = "03277320"
-    date = "040895"
-    # offsets = 1025
-    # message = "hello world"
-
-    actual = @enigma.encrypt("hello world", key, date)
+    actual = @enigma.encrypt(message, key, date)
 
     assert_instance_of Hash, actual
     assert_equal "keder ohulw", actual[encryption]
