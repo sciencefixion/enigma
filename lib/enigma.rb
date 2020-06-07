@@ -39,4 +39,8 @@ class Enigma
       :D => keys[:D] + offsets[:D]
     }
   end
+
+  def encrypt(message, key = nil, date = nil)
+    
+  end
 end
