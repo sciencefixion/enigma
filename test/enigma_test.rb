@@ -40,4 +40,16 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Hash, @enigma.find_shifts
     assert_equal 4, @enigma.find_shifts.length
   end
+
+  def test_encrypt
+    key = "03277320"
+    date = "040895"
+    # offsets = 1025
+    # message = "hello world"
+
+    actual = @enigma.encrypt("hello world", key, date)
+
+    assert_instance_of Hash, actual
+    assert_equal "keder ohulw", actual[encryption]
+  end
 end
