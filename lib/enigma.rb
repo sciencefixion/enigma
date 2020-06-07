@@ -33,8 +33,8 @@ class Enigma
   def encrypt(message, keys = nil, date = nil)
 
     shifts = find_shifts(keys, date)
-    encrypt = {encryption: "", key: shifts[keys], date: find_shifts[date]}
-
+    encrypt_hash = {encryption: "", key: shifts[keys], date: find_shifts[date]}
+    require 'pry'; binding.pry
     # message.downcase.each_char do |char|
     #   if character_set.include?(char)
     #     if
@@ -55,5 +55,6 @@ class Enigma
     #     p @plain[@plain.index(n) - shift]
     #   end
     # end
+    encrypt_hash
   end
 end

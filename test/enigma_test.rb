@@ -35,7 +35,7 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_find_shifts
-    key = "02715"
+    @enigma.stubs(:generate_keys).returns("02715")
     @enigma.stubs(:get_date).returns("040895")
     expected = {
       :keys => "02715",
@@ -46,12 +46,12 @@ class EnigmaTest < Minitest::Test
       :D => 20
     }
 
-    assert_instance_of Hash, @enigma.find_shifts(key)
-    assert_equal expected, @enigma.find_shifts(key)
+    assert_instance_of Hash, @enigma.find_shifts
+    assert_equal expected, @enigma.find_shifts
   end
 
   def test_encrypt
-    skip
+
     key = "02715"
     message = "hello world"
     @enigma.stubs(:get_date).returns("040895")
@@ -59,6 +59,6 @@ class EnigmaTest < Minitest::Test
     actual = @enigma.encrypt(message, key)
 
     assert_instance_of Hash, actual
-    assert_equal "keder ohulw", actual[encryption]
+    assert_equal "keder ohulw", actual[:encryption]
   end
 end
