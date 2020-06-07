@@ -5,16 +5,17 @@ class Enigma
     @character_set = ("a".."z").to_a << " "
   end
 
-  def random_five_digit_num
-    rand.to_s[2..6]
-  end
+  # def random_five_digit_num
+  #   rand.to_s[2..6]
+  # end
 
   def generate_keys
-    num = random_five_digit_num
-    { A: num[0..1],
-      B: num[1..2],
-      C: num[2..3],
-      D: num[3..4] }
+    rand.to_s[2..6]
+    # num = random_five_digit_num
+    # { A: num[0..1],
+    #   B: num[1..2],
+    #   C: num[2..3],
+    #   D: num[3..4] }
   end
 
   def get_date
@@ -22,25 +23,23 @@ class Enigma
   end
 
   def generate_offsets
-    squared_date = get_date.to_i ** 2
-    { A: squared_date[-4],
-      B: squared_date[-3],
-      C: squared_date[-2],
-      D: squared_date[-1] }
+    squared_date = (get_date.to_i ** 2)
+    squared_date.to_s[-4..-1]
   end
 
-  def find_shifts
-    keys = generate_keys.transform_values { |v| v.to_i }
-    offsets = generate_offsets
-    shifts = {
-      :A => keys[:A] + offsets[:A],
-      :B => keys[:B] + offsets[:B],
-      :C => keys[:C] + offsets[:C],
-      :D => keys[:D] + offsets[:D]
-    }
+  def find_shifts(keys = nil, offsets = nil)
+    keys = generate_keys if keys.nil?
+    offsets = generate_offsets if offsets.nil?
+    require 'pry'; binding.pry
+    # shifts = {
+    #   :A => keys[0..1].to_i + ,
+    #   :B => keys[1..2].to_i + ,
+    #   :C => keys[2..3].to_i + ,
+    #   :D => keys[3..4].to_i +
+    # }
   end
 
   def encrypt(message, key = nil, date = nil)
-    
+
   end
 end
