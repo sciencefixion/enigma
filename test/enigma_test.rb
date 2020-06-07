@@ -37,9 +37,7 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_find_shifts
-
     assert_instance_of Hash, @enigma.find_shifts
-    assert_equal 4, @enigma.find_shifts
+    assert_equal 4, @enigma.find_shifts.length
   end
-
 end

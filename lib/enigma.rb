@@ -28,4 +28,15 @@ class Enigma
       C: squared_date[-2],
       D: squared_date[-1] }
   end
+
+  def find_shifts
+    keys = generate_keys.transform_values { |v| v.to_i }
+    offsets = generate_offsets
+    shifts = {
+      :A => keys[:A] + offsets[:A],
+      :B => keys[:B] + offsets[:B],
+      :C => keys[:C] + offsets[:C],
+      :D => keys[:D] + offsets[:D]
+    }
+  end
 end
