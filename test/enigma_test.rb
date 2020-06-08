@@ -12,18 +12,13 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_has_a_character_set
-    expected = ("a".."z").to_a << " "
+    expected = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
     assert_equal expected, @enigma.character_set
   end
 
-  def test_random_five_digit_num
-    assert_equal 5, @enigma.random_five_digit_num.length
-  end
-
   def test_generate_keys
-    assert_instance_of Hash, @enigma.generate_keys
-    assert_equal 4, @enigma.generate_keys.length
-    assert_equal 2, @enigma.generate_keys[:A].length
+    assert_instance_of String, @enigma.generate_keys
+    assert_equal 5, @enigma.generate_keys.length
   end
 
   def test_get_date
@@ -32,12 +27,59 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_generate_offsets
-    assert_instance_of Hash, @enigma.generate_offsets
-    assert_equal 4, @enigma.generate_offsets.length
+    @enigma.stubs(:get_date).returns("040895")
+    date = @enigma.get_date
+
+    assert_instance_of String, @enigma.generate_offsets(date)
+    assert_equal "1025", @enigma.generate_offsets(date)
   end
 
   def test_it_can_find_shifts
+    @enigma.stubs(:generate_keys).returns("02715")
+    @enigma.stubs(:get_date).returns("040895")
+    expected = {
+      :keys => "02715",
+      :date => "040895",
+      :A => 3,
+      :B => 27,
+      :C => 73,
+      :D => 20
+    }
+
     assert_instance_of Hash, @enigma.find_shifts
-    assert_equal 4, @enigma.find_shifts.length
+    assert_equal expected, @enigma.find_shifts
+  end
+
+  def test_encode
+    assert_equal "k", @enigma.encode("h", 3)
+    assert_equal "!", @enigma.encode("!", 2)
+    assert_equal "?", @enigma.encode("?", 15)
+  end
+
+  def test_encrypt
+    @enigma.stubs(:generate_keys).returns("02715")
+    @enigma.stubs(:get_date).returns("040895")
+    actual = @enigma.encrypt("HELLO WORLD!")
+
+    assert_instance_of Hash, actual
+    assert_equal "keder ohulw!", actual[:encryption]
+    assert_equal "02715", actual[:key]
+    assert_equal "040895", actual[:date]
+
+    enigma = Enigma.new
+    enigma.stubs(:get_date).returns("040895")
+    assert_equal "keder ohulw", enigma.encrypt("hello world", "02715")[:encryption]
+  end
+
+  def test_decrypt
+    @enigma.stubs(:generate_keys).returns("02715")
+    @enigma.stubs(:get_date).returns("040895")
+
+    actual = @enigma.decrypt("keder ohulw!")
+
+    assert_instance_of Hash, actual
+    assert_equal "hello world!", actual[:decryption]
+    assert_equal "02715", actual[:key]
+    assert_equal "040895", actual[:date]
   end
 end

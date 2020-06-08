@@ -5,38 +5,70 @@ class Enigma
     @character_set = ("a".."z").to_a << " "
   end
 
-  def random_five_digit_num
-    rand.to_s[2..6]
-  end
-
   def generate_keys
-    num = random_five_digit_num
-    { A: num[0..1],
-      B: num[1..2],
-      C: num[2..3],
-      D: num[3..4] }
+    rand.to_s[2..6]
   end
 
   def get_date
     Time.new.strftime("%d%m%y")
   end
 
-  def generate_offsets
-    squared_date = get_date.to_i ** 2
-    { A: squared_date[-4],
-      B: squared_date[-3],
-      C: squared_date[-2],
-      D: squared_date[-1] }
+  def generate_offsets(date)
+    squared_date = (date.to_i ** 2)
+    squared_date.to_s[-4..-1]
   end
 
-  def find_shifts
-    keys = generate_keys.transform_values { |v| v.to_i }
-    offsets = generate_offsets
-    shifts = {
-      :A => keys[:A] + offsets[:A],
-      :B => keys[:B] + offsets[:B],
-      :C => keys[:C] + offsets[:C],
-      :D => keys[:D] + offsets[:D]
-    }
+  def find_shifts(keys = nil, date = nil)
+    keys = generate_keys if keys.nil?
+    date = get_date if date.nil?
+    offsets = generate_offsets(date)
+    shifts = {keys: keys, date: date}
+    shifts[:A] = keys[0..1].to_i + offsets[0].to_i
+    shifts[:B] = keys[1..2].to_i + offsets[1].to_i
+    shifts[:C] = keys[2..3].to_i + offsets[2].to_i
+    shifts[:D] = keys[3..4].to_i + offsets[3].to_i
+    shifts
+  end
+
+  def encode(char, shift)
+    if character_set.include?(char)
+      character_set[(character_set.index(char) + shift) % character_set.length]
+    else
+      char
+    end
+ end
+
+  def encrypt(message, key = nil, date = nil)
+    shifts = find_shifts(key, date)
+    encrypted = {encryption: "", key: "", date: ""}
+    encrypted[:key] = shifts[:keys]
+    encrypted[:date] = shifts[:date]
+
+    msg = message.downcase.chars.each_with_index
+    shifts_arr = shifts.values[2..5]
+
+    encrypted[:encryption] << msg.map do |char, index|
+      shift = shifts_arr[index % shifts_arr.length]
+      encode(char, shift)
+    end.join
+
+    encrypted
+  end
+
+  def decrypt(message, key = nil, date = nil)
+    shifts = find_shifts(key, date)
+    decrypted = {decryption: "", key: "", date: ""}
+    decrypted[:key] = shifts[:keys]
+    decrypted[:date] = shifts[:date]
+
+    msg = message.downcase.chars.each_with_index
+    shifts_arr = shifts.values[2..5]
+
+    decrypted[:decryption] << msg.map do |char, index|
+      shift = shifts_arr[index % shifts_arr.length]
+      encode(char, (27 - shift))
+    end.join
+
+    decrypted
   end
 end
