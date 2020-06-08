@@ -65,5 +65,7 @@ class EnigmaTest < Minitest::Test
 
     assert_instance_of Hash, actual
     assert_equal "keder ohulw!", actual[:encryption]
+    assert_equal "02715", actual[:key]
+    assert_equal "040895", actual[:date]
   end
 end
