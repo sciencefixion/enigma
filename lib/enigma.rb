@@ -38,14 +38,21 @@ class Enigma
     end
  end
 
-  def encrypt(message, keys = nil, date = nil)
-    shifts = find_shifts(keys, date)
-    encrypt_hash = {encryption: "", key: shifts[:keys], date: find_shifts[:date]}
+  def encrypt(message, key = nil, date = nil)
+    shifts = find_shifts(key, date)
+    encrypt_hash = {encryption: "", key: "", date: ""}
+    encrypt_hash[:key] = shifts[:keys]
+    encrypt_hash[:date] = shifts[:date]
 
     msg = message.downcase.chars.each_with_index
     shifts_arr = shifts.values[2..5]
 
-    require 'pry'; binding.pry
+    encrypt_hash[:encryption] << msg.map do |char, index|
+      shift = shifts_arr[index % shifts_arr.length]
+      encode(char, shift)
+    end.join
+    # require 'pry'; binding.pry
+
     encrypt_hash
   end
 end
