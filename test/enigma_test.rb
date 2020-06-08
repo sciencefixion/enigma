@@ -68,4 +68,16 @@ class EnigmaTest < Minitest::Test
     assert_equal "02715", actual[:key]
     assert_equal "040895", actual[:date]
   end
+
+  def test_decrypt
+    @enigma.stubs(:generate_keys).returns("02715")
+    @enigma.stubs(:get_date).returns("040895")
+
+    actual = @enigma.decrypt("keder ohulw!")
+
+    assert_instance_of Hash, actual
+    assert_equal "hello world!", actual[:decryption]
+    assert_equal "02715", actual[:key]
+    assert_equal "040895", actual[:date]
+  end
 end

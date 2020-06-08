@@ -51,7 +51,6 @@ class Enigma
       shift = shifts_arr[index % shifts_arr.length]
       encode(char, shift)
     end.join
-    # require 'pry'; binding.pry
 
     encrypt_hash
   end
