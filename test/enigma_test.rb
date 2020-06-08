@@ -50,13 +50,17 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.find_shifts
   end
 
+  def test_encode
+    
+    assert_equal "k", @enigma.encode("h", 3)
+  end
+
   def test_encrypt
 
-    key = "02715"
-    message = "hello world"
+    @enigma.stubs(:generate_keys).returns("02715")
     @enigma.stubs(:get_date).returns("040895")
 
-    actual = @enigma.encrypt(message, key)
+    actual = @enigma.encrypt("HELLO WORLD!")
 
     assert_instance_of Hash, actual
     assert_equal "keder ohulw", actual[:encryption]
