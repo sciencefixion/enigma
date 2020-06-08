@@ -30,9 +30,21 @@ class Enigma
     shifts
   end
 
+  def encode(char, shift)
+    if character_set.include?(char)
+      character_set[(character_set.index(char) + shift) % character_set.length]
+    else
+      char
+    end
+ end
+
   def encrypt(message, keys = nil, date = nil)
     shifts = find_shifts(keys, date)
     encrypt_hash = {encryption: "", key: shifts[:keys], date: find_shifts[:date]}
+
+    msg = message.downcase.chars.each_with_index
+    shifts_arr = shifts.values[2..5]
+
     require 'pry'; binding.pry
     encrypt_hash
   end
