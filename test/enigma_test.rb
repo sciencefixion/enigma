@@ -56,7 +56,6 @@ class EnigmaTest < Minitest::Test
     assert_equal "?", @enigma.encode("?", 15)
   end
 
-
   def test_encrypt
     @enigma.stubs(:generate_keys).returns("02715")
     @enigma.stubs(:get_date).returns("040895")

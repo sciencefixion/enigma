@@ -54,4 +54,21 @@ class Enigma
 
     encrypt_hash
   end
+
+  def decrypt(message, key = nil, date = nil)
+    shifts = find_shifts(key, date)
+    decrypt_hash = {decryption: "", key: "", date: ""}
+    decrypt_hash[:key] = shifts[:keys]
+    decrypt_hash[:date] = shifts[:date]
+
+    msg = message.downcase.chars.each_with_index
+    shifts_arr = shifts.values[2..5]
+
+    decrypt_hash[:decryption] << msg.map do |char, index|
+      shift = shifts_arr[index % shifts_arr.length]
+      encode(char, (27 - shift))
+    end.join
+
+    decrypt_hash
+  end
 end
