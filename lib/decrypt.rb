@@ -7,16 +7,16 @@ date = ARGV[3]
 
 encrypted = File.open(file, 'r')
 msg = encrypted.read().strip
-
+enigma = Enigma.new
+decrypted = enigma.decrypt(msg, key, date)
 
 outfile = File.new("#{file_2}", 'w')
-outfile.puts("#{msg}")
+outfile.puts("#{decrypted[:decryption]}")
 
 encrypted.close()
 outfile.close()
 
-puts "Created '#{file_2}' with key and date"
-
+puts "Created '#{file_2}' with key #{decrypted[:key]} and date #{decrypted[:date]}"
 
 # $ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt 82648 240818
 # Created 'decrypted.txt' with the key 82648 and date 240818
