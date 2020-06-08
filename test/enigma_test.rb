@@ -59,13 +59,16 @@ class EnigmaTest < Minitest::Test
   def test_encrypt
     @enigma.stubs(:generate_keys).returns("02715")
     @enigma.stubs(:get_date).returns("040895")
-
     actual = @enigma.encrypt("HELLO WORLD!")
 
     assert_instance_of Hash, actual
     assert_equal "keder ohulw!", actual[:encryption]
     assert_equal "02715", actual[:key]
     assert_equal "040895", actual[:date]
+
+    enigma = Enigma.new
+    enigma.stubs(:get_date).returns("040895")
+    assert_equal "keder ohulw", enigma.encrypt("hello world", "02715")[:encryption]
   end
 
   def test_decrypt

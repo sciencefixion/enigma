@@ -40,35 +40,35 @@ class Enigma
 
   def encrypt(message, key = nil, date = nil)
     shifts = find_shifts(key, date)
-    encrypt_hash = {encryption: "", key: "", date: ""}
-    encrypt_hash[:key] = shifts[:keys]
-    encrypt_hash[:date] = shifts[:date]
+    encrypted = {encryption: "", key: "", date: ""}
+    encrypted[:key] = shifts[:keys]
+    encrypted[:date] = shifts[:date]
 
     msg = message.downcase.chars.each_with_index
     shifts_arr = shifts.values[2..5]
 
-    encrypt_hash[:encryption] << msg.map do |char, index|
+    encrypted[:encryption] << msg.map do |char, index|
       shift = shifts_arr[index % shifts_arr.length]
       encode(char, shift)
     end.join
 
-    encrypt_hash
+    encrypted
   end
 
   def decrypt(message, key = nil, date = nil)
     shifts = find_shifts(key, date)
-    decrypt_hash = {decryption: "", key: "", date: ""}
-    decrypt_hash[:key] = shifts[:keys]
-    decrypt_hash[:date] = shifts[:date]
+    decrypted = {decryption: "", key: "", date: ""}
+    decrypted[:key] = shifts[:keys]
+    decrypted[:date] = shifts[:date]
 
     msg = message.downcase.chars.each_with_index
     shifts_arr = shifts.values[2..5]
 
-    decrypt_hash[:decryption] << msg.map do |char, index|
+    decrypted[:decryption] << msg.map do |char, index|
       shift = shifts_arr[index % shifts_arr.length]
       encode(char, (27 - shift))
     end.join
 
-    decrypt_hash
+    decrypted
   end
 end
