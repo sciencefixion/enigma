@@ -15,6 +15,3 @@ message.close()
 outfile.close()
 
 puts "Created '#{file_2}' with key #{encrypted[:key]} and date #{encrypted[:date]}"
-
-# $ ruby ./lib/encrypt.rb message.txt encrypted.txt
-# Created 'encrypted.txt' with the key 82648 and date 240818
